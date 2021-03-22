@@ -66,14 +66,12 @@ public class MyFirebaseMessageService extends FirebaseMessagingService {
         getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", token).apply();
     }
 
-    //保证在FCMActivity中调用，可以获得最新的token（如果token换了的话）
+    // get new token, if no nre toekn created, return empty
     public static String getToken(Context context) {
         return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
     }
 
-    /*
-    * 设置notification的内容
-    * */
+    //set notification
     private void showNotification(RemoteMessage remoteMessage) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
