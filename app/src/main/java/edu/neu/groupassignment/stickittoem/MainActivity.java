@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             });
         } else {
             // create a new user
-            String userId = userRef.push().getKey(); //生成id
+            String userId = userRef.push().getKey(); 
             User user = new User(userId, username, token);
             userRef.child(username).setValue(user).addOnCompleteListener(task ->{
                 if  (task.isSuccessful()) {
@@ -201,17 +201,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //取得token 并且设置到全局变量token中
+    
     private void setToken() {
-        //newToken等于empty，如果token没有更新的话
+        
         String newToken = MyFirebaseMessageService.getToken(getApplicationContext());
         if (!newToken.equals("empty") && !newToken.equals(token)) {
             token = newToken;
             // change token in the database!
             Log.d(TAG, "New Token generated :" + token);
         }
-        Log.d(TAG, "No Change to the Token !!!!!!!!!!!!!!!!!");
-        Log.d(TAG, "Current Token is :" + token);
+        Log.d(TAG, "No Change to the Token :" + token);
     }
 
     private void saveHistory() {
@@ -255,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
         JSONObject jNotification = new JSONObject();
 
         try{
-            // 创建一个notification object
+            
             jNotification.put("title", "Stick It To 'Em");
             jNotification.put("body", "Sticker Sent From " + username);
             jNotification.put("sound", "default");
@@ -268,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
             jPayload.put("priority", "high");
             jPayload.put("notification", jNotification);
 
-            // 打开一个HTTP连接 and send the payload
+            // HTTP and send the payload
             URL url = new URL("https://fcm.googleapis.com/fcm/send");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
