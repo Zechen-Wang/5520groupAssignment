@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Stick It To \'Em</string>
+    <string name="notification_hint">This is the result activity opened from the notification</string>
 </resources>
