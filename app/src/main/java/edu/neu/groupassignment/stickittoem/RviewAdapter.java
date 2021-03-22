@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 
 import edu.neu.groupassignment.stickittoem.model.History;
 
-public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
+public class RviewAdapter extends RecyclerView.Adapter<RviewAdapter.RviewHolder> {
 
     private final ArrayList<History> historyList;
 
@@ -45,5 +47,18 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
     @Override
     public int getItemCount() {
         return historyList.size();
+    }
+
+    public class RviewHolder extends RecyclerView.ViewHolder {
+        public TextView receiver;
+        public TextView time;
+        public ImageView image;
+
+        public RviewHolder(View itemView) {
+            super(itemView);
+            receiver = itemView.findViewById(R.id.receiver);
+            time = itemView.findViewById(R.id.time);
+            image = itemView.findViewById(R.id.image);
+        }
     }
 }

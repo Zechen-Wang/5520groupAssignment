@@ -10,94 +10,95 @@
         android:id="@+id/image_1"
         android:layout_width="72dp"
         android:layout_height="69dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toStartOf="@+id/image_2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_send"
+        app:layout_constraintTop_toTopOf="@+id/image_2"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/image_2"
         android:layout_width="72dp"
         android:layout_height="69dp"
-        android:layout_marginTop="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_send"
+        app:layout_constraintVertical_bias="0.120000005"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/image_3"
         android:layout_width="72dp"
         android:layout_height="69dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="64dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_send"
+        app:layout_constraintStart_toEndOf="@+id/image_2"
+        app:layout_constraintTop_toTopOf="@+id/image_2"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/image_4"
         android:layout_width="72dp"
         android:layout_height="69dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toStartOf="@+id/image_5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton_1"
+        app:layout_constraintTop_toTopOf="@+id/image_5"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/image_5"
         android:layout_width="72dp"
         android:layout_height="69dp"
-        android:layout_marginTop="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioButton_2"
+        app:layout_constraintVertical_bias="0.110000014"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
         android:id="@+id/image_6"
         android:layout_width="72dp"
         android:layout_height="69dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="64dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton_3"
+        app:layout_constraintStart_toEndOf="@+id/image_5"
+        app:layout_constraintTop_toTopOf="@+id/image_5"
         tools:srcCompat="@tools:sample/avatars" />
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
         android:hint="Type your friend's username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btn_send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="sendMessage"
-        android:text="Send"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
-
-    <Button
-        android:id="@+id/btn_history"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Display history/ # of image sent"
-        android:onClick="checkHistory"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton_5"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.06999999" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="176dp"
+        android:layout_height="49dp"
+        android:onClick="sendMessage"
+        android:text="Send"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintVertical_bias="0.01999998" />
+
+    <Button
+        android:id="@+id/btn_history"
+        android:layout_width="144dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="10dp"
+        android:onClick="checkHistory"
+        android:text="History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioButton_4"
+        app:layout_constraintVertical_bias="0.98" />
 
     <RadioButton
         android:id="@+id/radioButton_1"
