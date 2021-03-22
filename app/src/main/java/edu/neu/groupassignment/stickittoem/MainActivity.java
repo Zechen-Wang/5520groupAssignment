@@ -3,6 +3,7 @@ package edu.neu.groupassignment.stickittoem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,12 +38,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 import edu.neu.groupassignment.stickittoem.R;
+import edu.neu.groupassignment.stickittoem.model.History;
 import edu.neu.groupassignment.stickittoem.model.User;
 
 import com.squareup.picasso.Picasso;
@@ -101,6 +105,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void updateUsersMap(Iterable <DataSnapshot> it) {
+        users = new HashMap<>();
+        for (DataSnapshot userSnapshot: it) {
+            String user = userSnapshot.getKey();
+            String token = (String) userSnapshot.child("token").getValue();
+            String userId = (String) userSnapshot.child("userId").getValue();
+            ArrayList<History> histories = new ArrayList<>();
+            if (userSnapshot.child("histories").exists()) {
+                for (DataSnapshot historySnapshot: userSnapshot.child("histories").getChildren()) {
+                    String from = (String) historySnapshot.child("from").getValue();
+                    String to = (String) historySnapshot.child("to").getValue();
+                    String image = (String) historySnapshot.child("image").getValue();
+                    String time = (String) historySnapshot.child("time").getValue();
+                    History history = new History(from, to, time, image);
+                    histories.add(history);
+                }
+            }
+            users.put(user, new User(userId, user, token, histories));
+        }
+    }
+
     private void initImages() {
         buttonImageMap = new HashMap<>();
         image1 = findViewById(R.id.image_1);
@@ -128,8 +153,6 @@ public class MainActivity extends AppCompatActivity {
         displayImage(button4, image4, "gs://stick-it-to-em-5be57.appspot.com/Smiling Face Emoji with Blushed Cheeks.png");
         displayImage(button5, image5, "gs://stick-it-to-em-5be57.appspot.com/Sunglasses Emoji.png");
         displayImage(button6, image6, "gs://stick-it-to-em-5be57.appspot.com/Tongue Out Emoji with Winking Eye.png");
-
-
     }
 
     public void selectImage(View view) {
@@ -152,21 +175,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUsersMap(Iterable <DataSnapshot> it) {
-        users = new HashMap<>();
-        for (DataSnapshot userSnapshot: it) {
-            String user = userSnapshot.getKey();
-            int sentCount = ((Long) userSnapshot.child("sentCount").getValue()).intValue();
-            String token = (String) userSnapshot.child("token").getValue();
-            String userId = (String) userSnapshot.child("userId").getValue();
-            users.put(user, new User(userId, user, token, sentCount));
-        }
-    }
-
-    /*
-     * 新建一个user存在database里（有可能覆盖，username一样的话）
-     * TODO： 数据库有username的话，就把这个user数据取出来（名字，token，发送sticker个数）
-     * */
     private void createUser() {
         if (users.containsKey(username)) {
             // update token only
@@ -206,9 +214,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Current Token is :" + token);
     }
 
-    private void accumateSentStickers() {
+    private void saveHistory() {
         User user = users.get(username);
-        user.accumulateSentCount();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        user.addHistory(username, friendName, dtf.format(now), selected);
         userRef.child(username).setValue(user).addOnCompleteListener(task ->{
             if  (task.isSuccessful()) {
                 Toast.makeText(this, "Save history success", Toast.LENGTH_SHORT).show();
@@ -230,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).start();
                 Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-                accumateSentStickers();
+                saveHistory();
             } else {
                 Toast.makeText(this, "Please select a sticker", Toast.LENGTH_LONG).show();
             }
@@ -288,7 +298,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //方便log的方法
+    public void checkHistory(View view) {
+        Intent intent = new Intent(this, HistoryActivity.class);
+        intent.putExtra("histories", users.get(username).getHistories());
+        startActivity(intent);
+    }
+
     private String convertStreamToString(InputStream is) {
         Scanner s = new Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next().replace(",", ",\n") : "";

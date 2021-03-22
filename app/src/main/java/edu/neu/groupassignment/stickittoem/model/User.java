@@ -1,10 +1,14 @@
 package edu.neu.groupassignment.stickittoem.model;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+
 public class User {
     private String userId;
     private String name;
     private String token;
-    private int sentCount;
+    private ArrayList<History> histories;
 
     public User() {
     }
@@ -13,14 +17,14 @@ public class User {
         this.userId = userId;
         this.name = name;
         this.token = token;
-        this.sentCount = 0;
+        this.histories = new ArrayList<>();
     }
 
-    public User(String userId, String name, String token, int sentCount) {
+    public User(String userId, String name, String token, ArrayList<History> histories) {
         this.userId = userId;
         this.name = name;
         this.token = token;
-        this.sentCount = sentCount;
+        this.histories = histories;
     }
 
     public String getUserId() {
@@ -47,11 +51,11 @@ public class User {
         this.token = token;
     }
 
-    public int getSentCount() {
-        return sentCount;
+    public ArrayList<History> getHistories() {
+        return histories;
     }
 
-    public void accumulateSentCount() {
-        this.sentCount += 1;
+    public void addHistory(String from, String to, String time, String image) {
+        this.histories.add(new History(from, to, time, image));
     }
 }
